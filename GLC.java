@@ -9,10 +9,9 @@ public class GLC{
 	static ArrayList<Regra> regras = new ArrayList<Regra>();
 	
 	public static void main(String[] args){
-		String path = args[1];
 		try{
-			obtemGLC(new File(path + "inp-glc.txt")); /* obtem a gramatica livre do contexto a partir do arquivo */
-			obtemCadeias(new File(path + "inp-cadeias.txt")); /* obtem as cadeias a ser analisadas a partir do arquivo */
+			obtemGLC(new File("inp-glc.txt")); /* obtem a gramatica livre do contexto a partir do arquivo */
+			obtemCadeias(new File("inp-cadeias.txt")); /* obtem as cadeias a ser analisadas a partir do arquivo */
 			/* CONTINUAR */
 		}
 		catch(FileNotFoundException e){
