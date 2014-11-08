@@ -21,18 +21,21 @@ public class GLC{
 				else{
 					int max = cadeia.length(); /* tamanho do lado da matriz quadrada */
 					Lista[][] tabela = new Lista[max][max]; /* tabela contendo listas ligadas para o valor de cada indice*/
-					/* obtendo a base da tabela */
-					int i = 0;
-					for(int j = 0; j < max; j++){
-						String terminal = String.valueOf(cadeia.charAt(2 * j)); /* caracteres sao divididos por espacos */
+					/* obtendo a diagonal exterior */
+					for(int i = 0; i < max; i++){
+						String terminal = String.valueOf(cadeia.charAt(2 * i)); /* caracteres sao divididos por espacos */
 						for(Regra r : regras)
-							if(r.dir.equals(terminal)) tabela[i][j].add(r.esq);
+							if(r.dir.equals(terminal)) tabela[i][i].add(r.esq);
 					}
 					/* entao o resto da tabela */
-					for(i = 1; i < max; i++)
-						for(int j = max - i - 1; j >= 0; j--)
-							achaRegras(tabela, i, j);
-					/* DO THE MAGIC HERE */
+					for(int d = 1; d < max; d++) /* diagonal */
+						for(int j = 0, i = j + d; i < max; i++, j++)
+							for(int ix = i + 1, jx = d; ix < max; jx++, ix++)
+								for(Regra regra : regras)
+									for(No n1 = tabela[i][jx].inicio; n1 != null; n1 = n1.prox)
+										for(No n2 = tabela[ix][j].inicio; n2 != null; n2 = n2.prox)
+											if(regra.dir.equals(n1 + " " + n2)) tabela[i][j].add(regra.esq);
+					/* LOG */
 				}
 			}
 			/* CONTINUAR */
@@ -75,19 +78,6 @@ public class GLC{
 			if(dir.equals(s)) return true;
 		return false;
 	}
-	
-	static void achaRegras(Lista[][] tabela, int i, int j){
-		/* i_d, j_d : i e j descendo na diagonal
-		/* i_v: i subindo na vertical */
-		for(int i_d = 1, j_d = j - i, i_v = i - 1; i_v > 0; i_d++, j_d++, i_v--){
-			for(Regra regra : regras)
-				for(No n1 = tabela[i_v][j].inicio; n1 != null; n1 = n1.prox)
-					for(No n2 = tabela[i_d][j_d].inicio; n2 != null; n2 = n2.prox)
-						if(regra.dir.equals(n1 + " " + n2)) tabela[i][j].add(regra.esq);
-		}
-		/* VERIFICAR SE FAZ SENTIDO */
-	}
-	
 }
 
 class Regra{
