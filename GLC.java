@@ -30,7 +30,7 @@ public class GLC{
 					/* entao o resto da tabela */
 					for(int d = 1; d < max; d++) /* diagonal */
 						for(int j = 0, i = j + d; i < max; i++, j++)
-							for(int ix = i + 1, jx = d; ix < max; jx++, ix++)
+							for(int ix = i + 1, jx = d; jx < j; jx++, ix++)
 								for(Regra regra : regras)
 									for(No n1 = tabela[i][jx].inicio; n1 != null; n1 = n1.prox)
 										for(No n2 = tabela[ix][j].inicio; n2 != null; n2 = n2.prox)
