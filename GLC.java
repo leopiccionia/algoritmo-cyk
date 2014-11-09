@@ -41,21 +41,24 @@ public class GLC{
 					Lista[][] tabela = new Lista[max][max]; /* tabela contendo listas ligadas para o valor de cada indice*/
 					/* obtendo a diagonal exterior */
 					for(int i = 0; 2 * i < max; i++){
+						tabela[i][i] = new Lista();
 						String terminal = String.valueOf(cadeia.charAt(2 * i)); /* caracteres sao divididos por espacos */
 						for(Regra regra : regras)
 							if(regra.dir.equals(terminal)) tabela[i][i].add(regra.esq);
 					}
 					/* entao o resto da tabela */
 					for(int d = 1; d < max; d++) /* diagonal */
-						for(int j = 0, i = d; i < max; i++, j++)
+						for(int i = 0, j = d; j < max; i++, j++){
+							tabela[i][j] = new Lista();
 							for(int ix = i + 1, jx = i; jx < j; jx++, ix++)
 								for(Regra regra : regras)
 									if(tabela[i][jx] != null && tabela[ix][j] != null)
 										for(No n1 = tabela[i][jx].inicio; n1 != null; n1 = n1.prox)
 											for(No n2 = tabela[ix][j].inicio; n2 != null; n2 = n2.prox)
 												if(regra.dir.equals(n1.valor + " " + n2.valor)) tabela[i][j].add(regra.esq);
+						}
 					/* gerando o log */
-					if(tabela[0][max - 1] != null) pw_status.write("1");
+					if(tabela[0][max - 1].inicio != null) pw_status.write("1");
 					else pw_status.write("0");
 					if(cadeias.get(cadeias.size() - 1) != cadeia) pw_status.write(" ");
 					pw_tabela.write(cadeia + "\n");
