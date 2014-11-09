@@ -43,7 +43,7 @@ public class GLC{
 					int max = cadeia.length(); /* tamanho do lado da matriz quadrada */
 					Lista[][] tabela = new Lista[max][max]; /* tabela contendo listas ligadas para o valor de cada indice*/
 					/* obtendo a diagonal exterior */
-					for(int i = 0; i < max; i++){
+					for(int i = 0; 2 * i < max; i++){
 						String terminal = String.valueOf(cadeia.charAt(2 * i)); /* caracteres sao divididos por espacos */
 						for(Regra regra : regras)
 							if(regra.dir.equals(terminal)) tabela[i][i].add(regra.esq);
