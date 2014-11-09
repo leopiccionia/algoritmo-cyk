@@ -1,4 +1,5 @@
-/* Leonardo Kazuhiko Kawazoe & Leonardo Piccioni de Almeida */
+/* Leonardo Kazuhiko Kawazoe - 8641959
+Leonardo Piccioni de Almeida - 8516094 */
 
 import java.io.*;
 import java.util.Scanner;
