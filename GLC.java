@@ -5,11 +5,12 @@ import java.util.ArrayList;
 
 public class GLC{
 	static final String VAZIO = "&";
+	static String INICIAL;
 	static ArrayList<String> variaveis = new ArrayList<String>();
 	static ArrayList<String> terminais = new ArrayList<String>();
 	static ArrayList<Regra> regras = new ArrayList<Regra>();
 	static ArrayList<String> cadeias =  new ArrayList<String>();
-	
+		
 	public static void main(String[] args){
 		try{
 			obtemGLC(new File("inp-glc.txt")); /* obtem a gramatica livre do contexto a partir do arquivo */
@@ -40,7 +41,7 @@ public class GLC{
 					int max = Math.round(cadeia.length() / 2) + 1; /* tamanho do lado da matriz quadrada */
 					Lista[][] tabela = new Lista[max][max]; /* tabela contendo listas ligadas para o valor de cada indice*/
 					/* obtendo a diagonal exterior */
-					for(int i = 0; 2 * i < max; i++){
+					for(int i = 0; i < max; i++){
 						tabela[i][i] = new Lista();
 						String terminal = String.valueOf(cadeia.charAt(2 * i)); /* caracteres sao divididos por espacos */
 						for(Regra regra : regras)
@@ -58,7 +59,7 @@ public class GLC{
 												if(regra.dir.equals(n1.valor + " " + n2.valor)) tabela[i][j].add(regra.esq);
 						}
 					/* gerando o log */
-					if(tabela[0][max - 1].inicio != null) pw_status.write("1");
+					if(tabela[0][max - 1].contem(INICIAL)) pw_status.write("1");
 					else pw_status.write("0");
 					if(cadeias.get(cadeias.size() - 1) != cadeia) pw_status.write(" ");
 					pw_tabela.write(cadeia + "\n");
@@ -89,6 +90,7 @@ public class GLC{
 		int num_terminais = sc.nextInt();
 		int num_regras = sc.nextInt();
 		for(int i = 0; i < num_variaveis; i++) variaveis.add(sc.next());
+		INICIAL = variaveis.get(0);
 		for(int i = 0; i < num_terminais; i++) terminais.add(sc.next());
 		for(int i = 0; i < num_regras; i++)
 			while(sc.hasNext()){
@@ -135,7 +137,8 @@ class Lista{
 			inicio = new No(s);
 		else if(!contem(s)){
 			No aux = inicio;
-			while(aux.prox != null) aux = aux.prox;
+			while(aux.prox != null)
+				aux = aux.prox;
 			aux.prox = new No(s);
 		}
 	}
@@ -144,7 +147,7 @@ class Lista{
 		No aux = inicio;
 		if(aux == null) return false;
 		do{
-			if(aux.valor == s) return true;
+			if(aux.valor.equals(s)) return true;
 			aux = aux.prox;
 		} while(aux != null);
 		return false;
