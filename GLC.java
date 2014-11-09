@@ -1,11 +1,12 @@
 /* Leonardo Kazuhiko Kawazoe & Leonardo Piccioni de Almeida */
+
 import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class GLC{
-	static final String VAZIO = "&";
-	static String INICIAL;
+	static final String VAZIO = "&"; /* cadeia vazia */
+	static String INICIAL; /* variavel inicial da gramatica */
 	static ArrayList<String> variaveis = new ArrayList<String>();
 	static ArrayList<String> terminais = new ArrayList<String>();
 	static ArrayList<Regra> regras = new ArrayList<Regra>();
@@ -51,7 +52,7 @@ public class GLC{
 					for(int d = 1; d < max; d++) /* diagonal */
 						for(int i = 0, j = d; j < max; i++, j++){
 							tabela[i][j] = new Lista();
-							for(int ix = i + 1, jx = i; jx < j; jx++, ix++)
+							for(int ix = i + 1, jx = i; jx < j; jx++, ix++) /* */
 								for(Regra regra : regras)
 									if(tabela[i][jx] != null && tabela[ix][j] != null)
 										for(No n1 = tabela[i][jx].inicio; n1 != null; n1 = n1.prox)
@@ -112,7 +113,7 @@ public class GLC{
 		for(int i = 0; i < num_cadeias; i++) cadeias.add(sc.nextLine());	
 	}
 	
-	static boolean ehTerminal(String dir){
+	static boolean ehTerminal(String dir){ /* verifica se regra gera terminal */
 		for(String s: terminais)
 			if(dir.equals(s)) return true;
 		return false;
@@ -120,6 +121,7 @@ public class GLC{
 }
 
 class Regra{
+	/* esq > dir */
 	public String esq; /* variavel do lado esquerdo da regra */
 	public String dir; /* variaveis do lado direito da regra*/
 	
@@ -132,7 +134,7 @@ class Regra{
 class Lista{
 	No inicio = null;
 	
-	public void add(String s){
+	public void add(String s){ /* adicional lado esquerdo da regra em lista ligada */
 		if(inicio == null)
 			inicio = new No(s);
 		else if(!contem(s)){
@@ -143,7 +145,7 @@ class Lista{
 		}
 	}
 	
-	boolean contem(String s){
+	boolean contem(String s){ /* verifica se lista ligada contem variavel */
 		No aux = inicio;
 		if(aux == null) return false;
 		do{
@@ -159,7 +161,7 @@ class Lista{
 }
 
 class No{
-	String valor;
+	String valor; /* lado esquerdo de regra */
 	No prox;
 	
 	public No(String s){
